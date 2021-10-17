@@ -1,19 +1,24 @@
 import styled from "styled-components";
-import { Avatar } from "@material-ui/core";
+import { Avatar , IconButton} from "@material-ui/core";
 import  ChatIcon from "@material-ui/icons/Chat"
 import  MoreVertIcon from "@material-ui/icons/MoreVert"
 
 function Sidebar() {
     return (
-        <Container>
-            <Header>
+    <Container>
+        <Header>
                 <UserAvatar/>
-                <IconsContainer>
-                   <ChatIcon/>
-                   <MoreVertIcon/>
-                </IconsContainer>
-            </Header>
-        </Container>
+
+            <IconsContainer>
+                <IconButton>
+                  <ChatIcon/>
+                </IconButton>
+                <IconButton>
+                  <MoreVertIcon/>
+                </IconButton>   
+            </IconsContainer>
+         </Header>
+    </Container>
     )
 }
 
@@ -24,7 +29,12 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-
+   display: flex;
+   position: sticky;
+   top:0;
+   background-color : white;
+   z-index:1;
+   justify-content: space-between;
 `;
 
 const UserAvatar = styled(Avatar)`
