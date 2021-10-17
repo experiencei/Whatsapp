@@ -6,7 +6,7 @@ import  SearchIcon  from "@material-ui/icons/Search";
 import * as EmailValidator from "email-validator";
 import { db , auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollection } from "react-firebase-hooks/auth";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 function Sidebar() {
   const [user] = useAuthState(auth);
@@ -52,7 +52,7 @@ function Sidebar() {
          <SidebarButton onClick={createChat}>Start a new Chat</SidebarButton>
 
          {chatsSnapshot?.docs.map( chat => (
-           <Chat key={chat.id} id={chat.id} user={chat.data().users}/>
+           <Chat key={chat.id} id={chat.id} users={chat.data().users}/>
          ))}
     </Container>
     )
