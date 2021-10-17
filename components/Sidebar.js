@@ -34,16 +34,22 @@ export default Sidebar
 const Container = styled.div`
 
 `;
+
 const Search = styled.div`
 display: flex;
 align-items: center;
 padding: 20px;
 border-radius:2px;
 `;
+
 const SidebarButton = styled(Button)`
 width: 100%;
-border-top:;
+  &&&{
+    border-top: 1px solid whitesmoke;
+    border-bottom: 1px solid whitesmoke;
+  }
 `;
+
 const SearchInput = styled.input`
    outline-width: 0;
    border: none;
