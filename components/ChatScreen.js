@@ -8,9 +8,13 @@ import  AttachFileIcon from "@material-ui/icons/AttachFile";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Message from "./Message";
 import { InsertEmoticon, Mic } from "@material-ui/icons";
+import firebase from 'firebase/compat/app';
+import { useState } from "react";
+
 
 function ChatScreen({ chat , messages}) {
     const [user] = useAuthState(auth);
+    const [input , setInput] = useState("")
     const router = useRouter();
     const [messagesSnapshot] =  useCollection(db.collection("chats").doc(router.query.id).collection('messages').orderBy('timestamp' , "asc"));
 
@@ -29,6 +33,24 @@ function ChatScreen({ chat , messages}) {
                />
            ))
        }
+    }
+
+    const sendMessage = (e) => {
+       e.preventDefault();
+       //update lastseen
+       db.collection("users").doc(user.uid).set({
+           lastseen : firebase.firestore.FieldValue.serverTimestamp(),
+       } , { merge: true});
+
+       db.collection("chats").doc( router.query.id).collection('messages').add({
+           timestamp : firebase.firestore.FieldValue.serverTimestamp(),
+           message : input,
+           user : user.email,
+           photoURL : user.photoURL,
+
+       });
+
+       setInput("");
     }
      
     return (
@@ -50,12 +72,13 @@ function ChatScreen({ chat , messages}) {
              </Header>
 
              <MessageContainer>
-               {showMessages()}
+               {/* {showMessages()} */}
                 <EndofMessage/>
              </MessageContainer>
              <InputContainer>
                <InsertEmoticon/>
-               <Input/>
+               <Input  value={input} onChange={e => setInput(e.target.value)}/>
+               <button hidden disabled={!input} type="submit" onClick={sendMessage}> Send Message</button>
                <Mic/>
              </InputContainer>
         </Container>
