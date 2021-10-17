@@ -1,9 +1,11 @@
 import styled from "styled-components";
-
+import Avat
 function Sidebar() {
     return (
         <Container>
-            <h2>what up guys</h2>
+            <Header>
+
+            </Header>
         </Container>
     )
 }
@@ -17,3 +19,6 @@ const Container = styled.div`
 const Header = styled.div`
 
 `;
+
+const UserAvatar = styled(Avatar)`
+`
