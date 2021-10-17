@@ -2,14 +2,34 @@ import { Avatar, IconButton } from "@material-ui/core";
 import { useRouter } from "next/dist/client/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import styled from "styled-components"
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import  MoreVertIcon from "@material-ui/icons/MoreVert";
 import  AttachFileIcon from "@material-ui/icons/AttachFile";
-
+import { useCollection } from "react-firebase-hooks/firestore";
+import Message from "./Message";
+import { InsertEmoticon, Mic } from "@material-ui/icons";
 
 function ChatScreen({ chat , messages}) {
     const [user] = useAuthState(auth);
     const router = useRouter();
+    const [messagesSnapshot] =  useCollection(db.collection("chats").doc(router.query.id).collection('messages').orderBy('timestamp' , "asc"));
+
+    const showMessages = () => {
+       if (messagesSnapshot) {
+           return messagesSnapshot.docs.map( message => (
+               <Message
+                   key={message.id}  
+                   user={message.data().user}
+                   message={
+                       {
+                           ...message.data(),
+                           timestamp: message.data().timestamp?.toDate().getTime(),
+                       }
+                   }
+               />
+           ))
+       }
+    }
      
     return (
         <Container>
@@ -19,8 +39,7 @@ function ChatScreen({ chat , messages}) {
                      <h3>Rec Email</h3>
                      <p>lastn seen ...</p>
                  </HeaderInformation>
-             </Header>
-             <HeaderIcons>
+                 <HeaderIcons>
                 <IconButton>
                     <AttachFileIcon/>
                 </IconButton>
@@ -28,10 +47,17 @@ function ChatScreen({ chat , messages}) {
                     <MoreVertIcon/>
                 </IconButton>
              </HeaderIcons>
+             </Header>
 
              <MessageContainer>
-
+               {showMessages()}
+                <EndofMessage/>
              </MessageContainer>
+             <InputContainer>
+               <InsertEmoticon/>
+               <Input/>
+               <Mic/>
+             </InputContainer>
         </Container>
     )
 }
@@ -60,7 +86,6 @@ const HeaderInformation = styled.div`
 
      > h3 {
          margin-bottom:3px;
-
      }
      > p {
          font-size: 14px;
@@ -69,6 +94,35 @@ const HeaderInformation = styled.div`
 
 `;
 
+const Input = styled.input`
+   flex: 1;
+   outline: 0;
+   border: none;
+   border-radius: 10px;
+   padding: 20px;
+   margin-bottom: 15px;
+   margin-right: 15px;
+   background-color: whitesmoke;
+`;
+
 const HeaderIcons = styled.div`
 
+`;
+
+const EndofMessage = styled.div`
+
+`;
+
+const MessageContainer = styled.div`
+
+`
+
+const InputContainer = styled.form`
+   display: flex;
+   align-items: center;
+   padding: 10px;
+   position: sticky;
+   bottom: 0;
+   background-color: white;
+   z-index:100;
 `;
