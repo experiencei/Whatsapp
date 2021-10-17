@@ -7,6 +7,7 @@ import * as EmailValidator from "email-validator";
 import { db , auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
+import Chat from "./Chat";
 
 function Sidebar() {
   const [user] = useAuthState(auth);
