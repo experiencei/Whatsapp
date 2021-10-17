@@ -21,6 +21,7 @@ function Sidebar() {
 
          <Search>
            <SearchIcon/>
+           <SearchInput placeholder="Search in chats"/>
          </Search>
     </Container>
     )
@@ -32,8 +33,17 @@ const Container = styled.div`
 
 `;
 const Search = styled.div`
+display: flex;
+align-items: center;
+padding: 20px;
+border-radius:2px;
 `;
 
+const SearchInput = styled.input`
+   outline-width: 0;
+   border: none;
+   flex: 1;
+`;
 const Header = styled.div`
    display: flex;
    position: sticky;
