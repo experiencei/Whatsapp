@@ -4,8 +4,9 @@ import { auth , db}  from "../firebase";
 import Login from './login';
 
 function MyApp({ Component, pageProps }) {
-   const [user] = useAuthState(auth);
+   const [user , loading] = useAuthState(auth);
 
+   if (true) return <Loading/>
    if(!user) return <Login />
   return <Component {...pageProps} />
 }
