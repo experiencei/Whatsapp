@@ -10,7 +10,7 @@ import Message from "./Message";
 import { InsertEmoticon, Mic } from "@material-ui/icons";
 import firebase from 'firebase/compat/app';
 import { useRef, useState } from "react";
-import getRecipientEmail from "../../utilis/getRecipientEmail";
+import getRecipientEmail from "../utilis/getRecipientEmail";
 import  TimeAgo from "timeago-react"
 function ChatScreen({ chat , messages}) {
 
@@ -145,6 +145,7 @@ const HeaderInformation = styled.div`
      > h3 {
          margin-bottom:3px;
      }
+     
      > p {
          font-size: 14px;
          color: gray;
