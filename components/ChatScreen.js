@@ -10,7 +10,7 @@ import Message from "./Message";
 import { InsertEmoticon, Mic } from "@material-ui/icons";
 import firebase from 'firebase/compat/app';
 import { useState } from "react";
-
+import getRecipientEmail from "../../utilis/getRecipientEmail";
 
 function ChatScreen({ chat , messages}) {
     const [user] = useAuthState(auth);
@@ -33,7 +33,7 @@ function ChatScreen({ chat , messages}) {
                />
            ))
        } else {
-           return JSON.parse(messages).map( (message) => (
+           return JSON.parse(messages).map((message) => (
                <Message
                    key={message.id}
                    user={message.user}
@@ -50,7 +50,7 @@ function ChatScreen({ chat , messages}) {
            lastseen : firebase.firestore.FieldValue.serverTimestamp(),
        } , { merge: true});
 
-       db.collection("chats").doc( router.query.id).collection('messages').add({
+       db.collection("chats").doc(router.query.id).collection('messages').add({
            timestamp : firebase.firestore.FieldValue.serverTimestamp(),
            message : input,
            user : user.email,
@@ -60,13 +60,13 @@ function ChatScreen({ chat , messages}) {
 
        setInput("");
     }
-     
+     const recipientEmail = getRecipientEmail(chat.users , user)
     return (
         <Container>
              <Header>
                  <Avatar/>
                  <HeaderInformation>
-                     <h3>Rec Email</h3>
+                     <h3>{recipientEmail}</h3>
                      <p>lastn seen ...</p>
                  </HeaderInformation>
                  <HeaderIcons>
