@@ -84,7 +84,6 @@ function ChatScreen({ chat , messages}) {
                    <Avatar>{recipientEmail[0]}</Avatar>
                 )
              }
-                 <Avatar/>
                  <HeaderInformation>
                      <h3>{recipientEmail}</h3>
                      {recipientSnapshot ? (
